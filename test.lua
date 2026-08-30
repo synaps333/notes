@@ -1,33 +1,49 @@
 local cg = game:GetService("CoreGui")
+local ts = game:GetService("TweenService")
 
 local gui = Instance.new("ScreenGui", cg)
 gui.Name = "LoadingGui"
 gui.ResetOnSpawn = false
 
 local mf = Instance.new("Frame", gui)
-mf.Size = UDim2.new(0, 280, 0, 120)
-mf.Position = UDim2.new(0.5, -140, 0.5, -60)
-mf.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+mf.Size = UDim2.new(0, 300, 0, 140)
+mf.Position = UDim2.new(0.5, -150, 0.5, -70)
+mf.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mf.BorderSizePixel = 0
-Instance.new("UICorner", mf).CornerRadius = UDim.new(0, 8)
+Instance.new("UICorner", mf).CornerRadius = UDim.new(0, 10)
 
 local textRu = Instance.new("TextLabel", mf)
-textRu.Size = UDim2.new(1, 0, 0, 30)
-textRu.Position = UDim2.new(0, 0, 0, 25)
+textRu.Size = UDim2.new(1, 0, 0, 25)
+textRu.Position = UDim2.new(0, 0, 0, 20)
 textRu.BackgroundTransparency = 1
-textRu.Text = "Загрузка идет 5 секунд"
+textRu.Text = "Загрузка"
 textRu.TextColor3 = Color3.fromRGB(255, 255, 255)
-textRu.TextSize = 14
-textRu.Font = Enum.Font.Code
+textRu.TextSize = 16
+textRu.Font = Enum.Font.GothamBold
 
 local textEn = Instance.new("TextLabel", mf)
-textEn.Size = UDim2.new(1, 0, 0, 30)
-textEn.Position = UDim2.new(0, 0, 0, 55)
+textEn.Size = UDim2.new(1, 0, 0, 20)
+textEn.Position = UDim2.new(0, 0, 0, 45)
 textEn.BackgroundTransparency = 1
 textEn.Text = "Loading takes 5 seconds"
-textEn.TextColor3 = Color3.fromRGB(150, 150, 150)
+textEn.TextColor3 = Color3.fromRGB(140, 140, 140)
 textEn.TextSize = 12
-textEn.Font = Enum.Font.Code
+textEn.Font = Enum.Font.GothamMedium
+
+local barBg = Instance.new("Frame", mf)
+barBg.Size = UDim2.new(1, -40, 0, 8)
+barBg.Position = UDim2.new(0, 20, 0, 90)
+barBg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+barBg.BorderSizePixel = 0
+Instance.new("UICorner", barBg).CornerRadius = UDim.new(1, 0)
+
+local barFill = Instance.new("Frame", barBg)
+barFill.Size = UDim2.new(0, 0, 1, 0)
+barFill.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+barFill.BorderSizePixel = 0
+Instance.new("UICorner", barFill).CornerRadius = UDim.new(1, 0)
+
+ts:Create(barFill, TweenInfo.new(5, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)}):Play()
 
 task.delay(5, function()
     gui:Destroy()
@@ -83,7 +99,7 @@ task.delay(5, function()
     langTitle.Text = "Select Language / Выберите язык"
     langTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     langTitle.TextSize = 12
-    langTitle.Font = Enum.Font.Code
+    langTitle.Font = Enum.Font.GothamBold
 
     local btnRu = Instance.new("TextButton", langMf)
     btnRu.Size = UDim2.new(1, -20, 0, 35)
@@ -93,7 +109,7 @@ task.delay(5, function()
     btnRu.Text = "Русский"
     btnRu.TextColor3 = Color3.fromRGB(255, 255, 255)
     btnRu.TextSize = 13
-    btnRu.Font = Enum.Font.Code
+    btnRu.Font = Enum.Font.GothamMedium
     Instance.new("UICorner", btnRu).CornerRadius = UDim.new(0, 4)
 
     local btnEn = Instance.new("TextButton", langMf)
@@ -104,7 +120,7 @@ task.delay(5, function()
     btnEn.Text = "English"
     btnEn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btnEn.TextSize = 13
-    btnEn.Font = Enum.Font.Code
+    btnEn.Font = Enum.Font.GothamMedium
     Instance.new("UICorner", btnEn).CornerRadius = UDim.new(0, 4)
 
     local creditLbl = Instance.new("TextLabel", langMf)
@@ -114,7 +130,7 @@ task.delay(5, function()
     creditLbl.Text = "Created By synaps333 (in tiktok)"
     creditLbl.TextColor3 = Color3.fromRGB(120, 120, 120)
     creditLbl.TextSize = 10
-    creditLbl.Font = Enum.Font.Code
+    creditLbl.Font = Enum.Font.GothamMedium
 
     local openBtn = Instance.new("TextButton", mainGui)
     openBtn.Size = UDim2.new(0, 60, 0, 30)
@@ -124,7 +140,7 @@ task.delay(5, function()
     openBtn.Text = "Open"
     openBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     openBtn.TextSize = 12
-    openBtn.Font = Enum.Font.Code
+    openBtn.Font = Enum.Font.GothamBold
     openBtn.Visible = false
     openBtn.Active = true
     openBtn.Draggable = true
@@ -152,7 +168,7 @@ task.delay(5, function()
     tl.BackgroundTransparency = 1
     tl.TextColor3 = Color3.fromRGB(255, 255, 255)
     tl.TextSize = 13
-    tl.Font = Enum.Font.Code
+    tl.Font = Enum.Font.GothamBold
     tl.TextXAlignment = Enum.TextXAlignment.Left
 
     local cb = Instance.new("TextButton", tb)
@@ -180,7 +196,7 @@ task.delay(5, function()
     box.BorderSizePixel = 0
     box.TextColor3 = Color3.fromRGB(255, 255, 255)
     box.TextSize = 13
-    box.Font = Enum.Font.Code
+    box.Font = Enum.Font.GothamMedium
     box.ClearTextOnFocus = false
     box.Text = ""
     Instance.new("UICorner", box).CornerRadius = UDim.new(0, 4)
@@ -192,7 +208,7 @@ task.delay(5, function()
     ab.BorderSizePixel = 0
     ab.TextColor3 = Color3.fromRGB(255, 255, 255)
     ab.TextSize = 13
-    ab.Font = Enum.Font.Code
+    ab.Font = Enum.Font.GothamBold
     Instance.new("UICorner", ab).CornerRadius = UDim.new(0, 4)
 
     local sf = Instance.new("ScrollingFrame", mfNotes)
@@ -218,7 +234,7 @@ task.delay(5, function()
     mainCredit.Text = "Created By synaps333 (in tiktok)"
     mainCredit.TextColor3 = Color3.fromRGB(100, 100, 100)
     mainCredit.TextSize = 10
-    mainCredit.Font = Enum.Font.Code
+    mainCredit.Font = Enum.Font.GothamMedium
 
     local function render()
         for _, v in ipairs(sf:GetChildren()) do
@@ -238,7 +254,7 @@ task.delay(5, function()
             t.Text = txt
             t.TextColor3 = Color3.fromRGB(220, 220, 220)
             t.TextSize = 12
-            t.Font = Enum.Font.Code
+            t.Font = Enum.Font.GothamMedium
             t.TextXAlignment = Enum.TextXAlignment.Left
             t.TextTruncate = Enum.TextTruncate.AtEnd
 
@@ -250,6 +266,7 @@ task.delay(5, function()
             cp.Text = "C"
             cp.TextColor3 = Color3.fromRGB(255, 255, 255)
             cp.TextSize = 12
+            cp.Font = Enum.Font.GothamBold
             Instance.new("UICorner", cp).CornerRadius = UDim.new(0, 3)
 
             cp.MouseButton1Click:Connect(function()
@@ -264,6 +281,7 @@ task.delay(5, function()
             dl.Text = "X"
             dl.TextColor3 = Color3.fromRGB(255, 255, 255)
             dl.TextSize = 12
+            dl.Font = Enum.Font.GothamBold
             Instance.new("UICorner", dl).CornerRadius = UDim.new(0, 3)
 
             dl.MouseButton1Click:Connect(function()
