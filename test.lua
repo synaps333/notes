@@ -8,47 +8,70 @@ gui.ResetOnSpawn = false
 local mf = Instance.new("Frame", gui)
 mf.Size = UDim2.new(0, 300, 0, 140)
 mf.Position = UDim2.new(0.5, -150, 0.5, -70)
-mf.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mf.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 mf.BorderSizePixel = 0
+mf.Active = true
+mf.Draggable = true
 Instance.new("UICorner", mf).CornerRadius = UDim.new(0, 10)
 
 local textRu = Instance.new("TextLabel", mf)
-textRu.Size = UDim2.new(1, 0, 0, 25)
-textRu.Position = UDim2.new(0, 0, 0, 20)
+textRu.Size = UDim2.new(1, -70, 0, 25)
+textRu.Position = UDim2.new(0, 20, 0, 20)
 textRu.BackgroundTransparency = 1
 textRu.Text = "Загрузка"
 textRu.TextColor3 = Color3.fromRGB(255, 255, 255)
 textRu.TextSize = 16
 textRu.Font = Enum.Font.GothamBold
+textRu.TextXAlignment = Enum.TextXAlignment.Left
+
+local percentText = Instance.new("TextLabel", mf)
+percentText.Size = UDim2.new(0, 50, 0, 25)
+percentText.Position = UDim2.new(1, -70, 0, 20)
+percentText.BackgroundTransparency = 1
+percentText.Text = "0%"
+percentText.TextColor3 = Color3.fromRGB(255, 255, 255)
+percentText.TextSize = 16
+percentText.Font = Enum.Font.GothamBold
+percentText.TextXAlignment = Enum.TextXAlignment.Right
 
 local textEn = Instance.new("TextLabel", mf)
 textEn.Size = UDim2.new(1, 0, 0, 20)
-textEn.Position = UDim2.new(0, 0, 0, 45)
+textEn.Position = UDim2.new(0, 20, 0, 45)
 textEn.BackgroundTransparency = 1
-textEn.Text = "Loading takes 5 seconds"
-textEn.TextColor3 = Color3.fromRGB(140, 140, 140)
+textEn.Text = "Loading system files..."
+textEn.TextColor3 = Color3.fromRGB(120, 120, 120)
 textEn.TextSize = 12
 textEn.Font = Enum.Font.GothamMedium
+textEn.TextXAlignment = Enum.TextXAlignment.Left
 
 local barBg = Instance.new("Frame", mf)
 barBg.Size = UDim2.new(1, -40, 0, 8)
 barBg.Position = UDim2.new(0, 20, 0, 90)
-barBg.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+barBg.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 barBg.BorderSizePixel = 0
 Instance.new("UICorner", barBg).CornerRadius = UDim.new(1, 0)
 
 local barFill = Instance.new("Frame", barBg)
 barFill.Size = UDim2.new(0, 0, 1, 0)
-barFill.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+barFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 barFill.BorderSizePixel = 0
 Instance.new("UICorner", barFill).CornerRadius = UDim.new(1, 0)
 
-ts:Create(barFill, TweenInfo.new(5, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+local loadTime = 5
+ts:Create(barFill, TweenInfo.new(loadTime, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)}):Play()
 
-task.delay(5, function()
+task.spawn(function()
+    local startTime = tick()
+    while tick() - startTime < loadTime do
+        local progress = math.clamp((tick() - startTime) / loadTime, 0, 1)
+        percentText.Text = math.floor(progress * 100) .. "%"
+        task.wait(0.03)
+    end
+    
+    percentText.Text = "100%"
+    task.wait(0.2)
     gui:Destroy()
 
-    -- Полный код твоих заметок
     if not writefile or not readfile then return end
 
     local p, hs = game:GetService("Players"), game:GetService("HttpService")
@@ -87,7 +110,7 @@ task.delay(5, function()
     local langMf = Instance.new("Frame", mainGui)
     langMf.Size = UDim2.new(0, 260, 0, 180)
     langMf.Position = UDim2.new(0.5, -130, 0.5, -90)
-    langMf.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    langMf.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     langMf.BorderSizePixel = 0
     langMf.Active = true
     langMf.Draggable = true
@@ -104,7 +127,7 @@ task.delay(5, function()
     local btnRu = Instance.new("TextButton", langMf)
     btnRu.Size = UDim2.new(1, -20, 0, 35)
     btnRu.Position = UDim2.new(0, 10, 0, 50)
-    btnRu.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    btnRu.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     btnRu.BorderSizePixel = 0
     btnRu.Text = "Русский"
     btnRu.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -115,7 +138,7 @@ task.delay(5, function()
     local btnEn = Instance.new("TextButton", langMf)
     btnEn.Size = UDim2.new(1, -20, 0, 35)
     btnEn.Position = UDim2.new(0, 10, 0, 95)
-    btnEn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    btnEn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     btnEn.BorderSizePixel = 0
     btnEn.Text = "English"
     btnEn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -128,14 +151,14 @@ task.delay(5, function()
     creditLbl.Position = UDim2.new(0, 0, 0, 140)
     creditLbl.BackgroundTransparency = 1
     creditLbl.Text = "Created By synaps333 (in tiktok)"
-    creditLbl.TextColor3 = Color3.fromRGB(120, 120, 120)
+    creditLbl.TextColor3 = Color3.fromRGB(100, 100, 100)
     creditLbl.TextSize = 10
     creditLbl.Font = Enum.Font.GothamMedium
 
     local openBtn = Instance.new("TextButton", mainGui)
-    openBtn.Size = UDim2.new(0, 60, 0, 30)
-    openBtn.Position = UDim2.new(0, 15, 0.5, -15)
-    openBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    openBtn.Size = UDim2.new(0, 80, 0, 30)
+    openBtn.Position = UDim2.new(0.5, -40, 0, 10)
+    openBtn.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     openBtn.BorderSizePixel = 0
     openBtn.Text = "Open"
     openBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -149,7 +172,7 @@ task.delay(5, function()
     local mfNotes = Instance.new("Frame", mainGui)
     mfNotes.Size = UDim2.new(0, 300, 0, 400)
     mfNotes.Position = UDim2.new(0.5, -150, 0.5, -200)
-    mfNotes.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    mfNotes.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     mfNotes.BorderSizePixel = 0
     mfNotes.Active = true
     mfNotes.Draggable = true
@@ -158,7 +181,7 @@ task.delay(5, function()
 
     local tb = Instance.new("Frame", mfNotes)
     tb.Size = UDim2.new(1, 0, 0, 30)
-    tb.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    tb.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     tb.BorderSizePixel = 0
     Instance.new("UICorner", tb).CornerRadius = UDim.new(0, 6)
 
@@ -192,7 +215,7 @@ task.delay(5, function()
     local box = Instance.new("TextBox", mfNotes)
     box.Size = UDim2.new(1, -16, 0, 35)
     box.Position = UDim2.new(0, 8, 0, 40)
-    box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    box.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
     box.BorderSizePixel = 0
     box.TextColor3 = Color3.fromRGB(255, 255, 255)
     box.TextSize = 13
@@ -204,7 +227,7 @@ task.delay(5, function()
     local ab = Instance.new("TextButton", mfNotes)
     ab.Size = UDim2.new(1, -16, 0, 30)
     ab.Position = UDim2.new(0, 8, 0, 80)
-    ab.BackgroundColor3 = Color3.fromRGB(50, 120, 50)
+    ab.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     ab.BorderSizePixel = 0
     ab.TextColor3 = Color3.fromRGB(255, 255, 255)
     ab.TextSize = 13
@@ -243,7 +266,7 @@ task.delay(5, function()
         for i, txt in ipairs(notes) do
             local item = Instance.new("Frame", sf)
             item.Size = UDim2.new(1, 0, 0, 35)
-            item.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            item.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
             item.BorderSizePixel = 0
             Instance.new("UICorner", item).CornerRadius = UDim.new(0, 4)
 
@@ -261,7 +284,7 @@ task.delay(5, function()
             local cp = Instance.new("TextButton", item)
             cp.Size = UDim2.new(0, 26, 0, 26)
             cp.Position = UDim2.new(1, -58, 0.5, -13)
-            cp.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            cp.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
             cp.BorderSizePixel = 0
             cp.Text = "C"
             cp.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -276,7 +299,7 @@ task.delay(5, function()
             local dl = Instance.new("TextButton", item)
             dl.Size = UDim2.new(0, 26, 0, 26)
             dl.Position = UDim2.new(1, -28, 0.5, -13)
-            dl.BackgroundColor3 = Color3.fromRGB(120, 50, 50)
+            dl.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
             dl.BorderSizePixel = 0
             dl.Text = "X"
             dl.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -299,6 +322,7 @@ task.delay(5, function()
         ab.Text = texts[lang].add
         langMf.Visible = false
         mfNotes.Visible = true
+        openBtn.Visible = true
     end
 
     btnRu.MouseButton1Click:Connect(function()
